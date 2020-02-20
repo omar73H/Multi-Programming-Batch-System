@@ -21,16 +21,16 @@ public class BatchSystem {
 		//New State
 		process1 p1 = new process1();
 		process2 p2 = new process2();
-		process3 p3 = new process3();
-		process4 p4 = new process4();
+//		process3 p3 = new process3();
+//		process4 p4 = new process4();
 		process5 p5 = new process5();
 		
 		
 		//Ready State
 		processes.add(p1);
 		processes.add(p2);
-		processes.add(p3);
-		processes.add(p4);
+//		processes.add(p3);
+//		processes.add(p4);
 		processes.add(p5);
 		
 		//Running & Blocked & Finished states
@@ -119,25 +119,20 @@ public class BatchSystem {
 		
 	}
 	
-	static class process3 extends Thread{
-
-		@Override
-		public void run() {
-			for (int i = 0; i <= 300 ; i++)
-				System.out.println(i);
-		}
-		
-	}
+	//process3
 	
-	static class process4 extends Thread{
-
-		@Override
-		public void run() {
-			for (int i = 500; i <= 1000 ; i++)
-				System.out.println(i);
-		}
-		
-	}
+	
+	
+	
+	
+	
+	//process4
+	
+	
+	
+	
+	
+	
 	
 	static class process5 extends Thread{
 
