@@ -1,13 +1,12 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import systemCalls.*;
 
 public class BatchSystem {
 
@@ -15,6 +14,8 @@ public class BatchSystem {
 	
 	public static void main(String[] args) throws Exception {
 		
+		
+	
 		processes = new ArrayList<Runnable>(5);
 		
 		//New State
@@ -23,6 +24,7 @@ public class BatchSystem {
 		process3 p3 = new process3();
 		process4 p4 = new process4();
 		process5 p5 = new process5();
+		
 		
 		//Ready State
 		processes.add(p1);
@@ -56,6 +58,30 @@ public class BatchSystem {
 
 		@Override
 		public void run(){
+			
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Please Enter the File Name:");
+			String x = sc.nextLine();
+			try 
+			{
+				ReadFileData readFileSysCall = new ReadFileData(x);	
+				readFileSysCall.printData();
+			} 
+			catch (FileNotFoundException e) 
+			{
+				System.out.println("File Name does not exist");
+			} 
+			catch (IOException e) 
+			{
+				System.out.println("Cannot print the File data");
+			}
+		}
+	}
+	
+	static class process2 extends Thread{
+
+		@Override
+		public void run() {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Please Enter the File Name");
 			String x = sc.nextLine();
@@ -64,51 +90,31 @@ public class BatchSystem {
 				System.out.println("The File does not Exist");
 				return;
 			}
-			if(file.length() == 0) {
-				System.out.println("The File Is Empty");
-				return;
-			}
-			try {
-				FileReader fileReader = new FileReader(file);
-				BufferedReader br = new BufferedReader(fileReader);
-				String curr ;
-				while((curr = br.readLine()) != null) {
-					System.out.println(curr);
-				}
-			} catch (Exception e) {}
-		}
-		
-	}
-	
-	static class process2 extends Thread{
-
-		@Override
-		public void run() {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Please Enter the File Name");
-			String s = sc.nextLine();
-			File file = new File(s);
-			if(!file.isFile()) {
-				System.out.println("The File does not Exist");
-				return;
-			}
-			String x , input = "";
-			System.out.println("Please Start Writting The Content You need to be Written in The File and Then Press Enter Twice");
-			try {
-				while(( x = br.readLine()).length() > 0) {
-					input += x + "\n" ;
+			String s , input = "";
+			System.out.println("Please Start Writting The Content needed to be Written in The File and Then Press Enter Twice");
+			try 
+			{	
+				while(( s = br.readLine()).length() > 0) 
+				{
+					input += (s + "\n");
 				}
-			} catch (IOException e) {}
+			}
+			catch (IOException e) 
+			{	
+				System.out.println("You input data incorrectly");
+			}
 			
-			
-			try {
-				FileWriter writer = new FileWriter( file , true );
-				BufferedWriter bw = new BufferedWriter(writer);
-				bw.write(input);
-				bw.close();
-			} catch (Exception e) {}
-			
+			try 
+			{
+				WriteData writeSysCall = new WriteData(x);
+				writeSysCall.write(input);
+				writeSysCall.endOfWrite();
+			}
+			catch (IOException e) 
+			{
+				System.out.println("Cannot write on that file");
+			}
 		}
 		
 	}
@@ -138,9 +144,9 @@ public class BatchSystem {
 		@Override
 		public void run() {
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Please Enter the Lower Bound Number");
+			System.out.println("Please Enter the Lower Bound Number:");
 			int lo = sc.nextInt();
-			System.out.println("Please Enter the Upper Bound Number");
+			System.out.println("Please Enter the Upper Bound Number:");
 			int hi = sc.nextInt();
 			for (int i = lo; i <= hi; i++)
 				System.out.println(i);
