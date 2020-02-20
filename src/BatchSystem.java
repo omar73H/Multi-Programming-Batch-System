@@ -15,7 +15,7 @@ public class BatchSystem {
 	
 	public static void main(String[] args) throws Exception {
 		
-		processes = new ArrayList<Runnable>();
+		processes = new ArrayList<Runnable>(5);
 		
 		//New State
 		process1 p1 = new process1();
@@ -49,6 +49,8 @@ public class BatchSystem {
 	//	((process1)(p)).resume();
 
 	}
+	
+	
 	
 	static class process1 extends Thread{
 
