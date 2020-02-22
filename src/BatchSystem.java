@@ -70,14 +70,7 @@ public class BatchSystem {
 				ReadFileData readFileSysCall = new ReadFileData(x);	
 				readFileSysCall.printData();
 			} 
-			catch (FileNotFoundException e) 
-			{
-				System.out.println("File Name does not exist");
-			} 
-			catch (IOException e) 
-			{
-				System.out.println("Cannot print the File data");
-			}
+			catch (Exception e) {System.out.println("The File IS NOT Exist");}
 		}
 	}
 	
@@ -103,10 +96,7 @@ public class BatchSystem {
 					input += (s + "\n");
 				}
 			}
-			catch (IOException e) 
-			{	
-				System.out.println("You input data incorrectly");
-			}
+			catch (Exception e) {e.printStackTrace();}
 			
 			try 
 			{
@@ -114,10 +104,7 @@ public class BatchSystem {
 				writeSysCall.write(input);
 				writeSysCall.endOfWrite();
 			}
-			catch (IOException e) 
-			{
-				System.out.println("Cannot write on that file");
-			}
+			catch (Exception e) {e.printStackTrace();}
 		}
 		
 	}
@@ -152,16 +139,20 @@ public class BatchSystem {
 			String x = "";
 			for (int i = lo; i <= hi; i++)
 				x += i+"\n";
-			File file = new File(lo+" to "+hi+".txt");
-			if(file.exists())
-				System.out.println("The Requested File to be Created is Already Exist , to view it try to use process 1");
+			String fileName = lo+"-to-"+hi+".txt";
+			File file = new File(fileName);
+			if(file.exists()) {
+				System.out.println("The Requested File to be Created is Already Exist , to view it try to use process 1 and its Name is "+fileName);
+				return;
+			}
 			try {
 				file.createNewFile();
 			} catch (IOException e) {e.printStackTrace();}
 			try {
-				WriteData writer = new WriteData(lo+" to "+hi+".txt");
+				WriteData writer = new WriteData(fileName);
 				writer.write(x);
 				writer.endOfWrite();
+				System.out.println("The Task is Done and The File With required Data is Created");
 			} catch (IOException e) {e.printStackTrace();}
 			
 		}
