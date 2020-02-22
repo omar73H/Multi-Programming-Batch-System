@@ -33,6 +33,8 @@ public class BatchSystem {
 		
 		//Running & Blocked & Finished states
 		simulate();
+		File file = new File("os1.txt");
+		//System.out.println(file.exists());
 	}
 	
 	// this Methode TODO on Milestone 2 ISA
