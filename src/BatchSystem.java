@@ -21,21 +21,22 @@ public class BatchSystem {
 		//New State
 		process1 p1 = new process1();
 		process2 p2 = new process2();
-//		process3 p3 = new process3();
-//		process4 p4 = new process4();
+		process3 p3 = new process3();
+		process4 p4 = new process4();
 		process5 p5 = new process5();
 		
 		
 		//Ready State
 		processes.add(p1);
 		processes.add(p2);
-//		processes.add(p3);
-//		processes.add(p4);
+		processes.add(p3);
+		processes.add(p4);
 		processes.add(p5);
+		
 		
 		//Running & Blocked & Finished states
 		simulate();
-		File file = new File("os1.txt");
+		//File file = new File("os1.txt");
 		//System.out.println(file.exists());
 	}
 	
@@ -44,10 +45,10 @@ public class BatchSystem {
 	public static void simulate() throws Exception {
 		//simulates the processes and synchronizes the I/O recourses
 		//TODO
-		//Runnable p2 = processes.get(1);
+		Runnable p = processes.get(4);
 		//Runnable p3 = processes.get(2);
 		//System.out.println(p instanceof process2);
-		//((process2)(p2)).start();
+		((process5)(p)).start();
 		//((process3)(p3)).start();
 		//System.out.println("********************");
 	//	((process1)(p)).resume();
@@ -121,20 +122,23 @@ public class BatchSystem {
 		
 	}
 	
-	//process3
+	static class process3 extends Thread{
+		@Override
+		public void run() {
+			for (int i = 0; i <= 300; i++) {
+				System.out.println(i);
+			}
+		}
+	}
 	
-	
-	
-	
-	
-	
-	//process4
-	
-	
-	
-	
-	
-	
+	static class process4 extends Thread{
+		@Override
+		public void run() {
+			for (int i = 500; i <= 1000; i++) {
+				System.out.println(i);
+			}
+		}
+	}
 	
 	static class process5 extends Thread{
 
@@ -145,10 +149,22 @@ public class BatchSystem {
 			int lo = sc.nextInt();
 			System.out.println("Please Enter the Upper Bound Number:");
 			int hi = sc.nextInt();
+			String x = "";
 			for (int i = lo; i <= hi; i++)
-				System.out.println(i);
+				x += i+"\n";
+			File file = new File(lo+" to "+hi+".txt");
+			if(file.exists())
+				System.out.println("The Requested File to be Created is Already Exist , to view it try to use process 1");
+			try {
+				file.createNewFile();
+			} catch (IOException e) {e.printStackTrace();}
+			try {
+				WriteData writer = new WriteData(lo+" to "+hi+".txt");
+				writer.write(x);
+				writer.endOfWrite();
+			} catch (IOException e) {e.printStackTrace();}
+			
 		}
-		
 	}
 
 }
