@@ -1,10 +1,5 @@
-Aman Allah Rafat El-Sayed Ali 
-43-17354
-T-15
-Guc Student
-At the SE Lecture Now 
-hello, I am writing now
-this is a new line of data
-everything is well
-Finial Version
-Omar Hatem
+ISA we have finished the first milestone in the OS project
+we now are testing process 2
+we write in the file OS.txt 
+All are working fine
+let's finish writing
