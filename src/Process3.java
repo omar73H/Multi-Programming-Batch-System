@@ -2,8 +2,8 @@
 public class Process3 extends Process{
 	
 	
-	public Process3(int ID) {
-		super(ID);
+	public Process3() {
+		super();
 	}
 
 	@Override

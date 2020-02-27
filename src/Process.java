@@ -5,10 +5,10 @@ public class Process extends Thread{
 	
 	State state;
 	int ID;
-	
+	static int counter=1;
 
-	public Process(int ID) {
-		this.ID = ID;
+	public Process() {
+		ID = counter++;
 		this.state = State.NEW;
 	}
 	

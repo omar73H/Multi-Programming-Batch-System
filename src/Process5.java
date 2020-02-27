@@ -5,8 +5,8 @@ import java.io.IOException;
 public class Process5 extends Process{
 
 	
-	public Process5(int ID) {
-		super(ID);
+	public Process5() {
+		super();
 	}
 
 	@Override

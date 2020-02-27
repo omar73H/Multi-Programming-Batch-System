@@ -15,11 +15,11 @@ public class BatchSystem {
 		processes = new ArrayList<Runnable>(5);
 		
 		//New State
-		Process1 p1 = new Process1(1);
-		Process2 p2 = new Process2(2);
-		Process3 p3 = new Process3(3);
-		Process4 p4 = new Process4(4);
-		Process5 p5 = new Process5(5);
+		Process1 p1 = new Process1();
+		Process2 p2 = new Process2();
+		Process3 p3 = new Process3();
+		Process4 p4 = new Process4();
+		Process5 p5 = new Process5();
 		
 		
 		

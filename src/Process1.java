@@ -3,8 +3,8 @@ import java.io.IOException;
 public class Process1 extends Process{
 
 	
-	public Process1(int ID) {
-		super(ID);
+	public Process1() {
+		super();
 	}
 
 	@Override
