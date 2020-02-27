@@ -35,21 +35,28 @@ public class Process5 extends Process{
 		}
 		try 
 		{
-			Kernel.createFile(filePath);
+			if(!Kernel.createFile(filePath))
+			{
+				Kernel.println("Cannot create a file with name: "+filePath);
+				this.state = State.TERMINATED;
+			}
 		}
 		catch (IOException e) 
 		{
 			Kernel.println("Cannot create a file with name: "+filePath);
+			this.state = State.TERMINATED;
 		}
 		
 		try 
 		{
 			Kernel.WriteData(filePath, data);
 			Kernel.println("The Task is Done and The File With required Data is Created");
+			this.state= State.TERMINATED;
 		}
 		catch (IOException e)
 		{
 			Kernel.println("Cannot write the count in a new file");
+			this.state = State.TERMINATED;
 		}
 		
 	}

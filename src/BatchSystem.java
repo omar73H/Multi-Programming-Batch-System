@@ -42,6 +42,10 @@ public class BatchSystem {
 		
 		
 		//Test 
+//		p1.run();
+//		p2.run();
+//		p3.run();
+//		p4.run();
 //		p5.run();
 		
 		//Running & Blocked & Finished states
