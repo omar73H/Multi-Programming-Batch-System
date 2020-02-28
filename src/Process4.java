@@ -9,13 +9,13 @@ public class Process4 extends Process{
 	@Override
 	public void run() {
 		//Running state
-		this.state = State.RUNNING;
+		this.setState(state.RUNNING);
 		
 		for (int i = 500; i <= 1000; i++) 
 		{
 			Kernel.println(i+"");
 		}
 		
-		this.state = State.TERMINATED;
+		this.setState(state.TERMINATED);
 	}
 }

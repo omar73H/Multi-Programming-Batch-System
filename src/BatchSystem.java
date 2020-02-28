@@ -12,7 +12,7 @@ public class BatchSystem {
 		
 		
 	
-		processes = new ArrayList<Runnable>(5);
+		processes = new ArrayList<Runnable>();
 		
 		//New State
 		Process1 p1 = new Process1();
@@ -21,32 +21,32 @@ public class BatchSystem {
 		Process4 p4 = new Process4();
 		Process5 p5 = new Process5();
 		
-		
+		//System.out.println(p1.getCurrentState());
 		
 		//Ready State
 		processes.add(p1);
-		p1.state = Process.State.READY;
+		p1.setState(state.READY);
 		
 		processes.add(p2);
-		p2.state = Process.State.READY;
+		p2.setState(state.READY);
 		
 		processes.add(p3);
-		p3.state = Process.State.READY;
+		p2.setState(state.READY);
 		
 		processes.add(p4);
-		p4.state = Process.State.READY;
+		p2.setState(state.READY);
 		
 		processes.add(p5);
-		p5.state = Process.State.READY;
+		p2.setState(state.READY);
 		
 		
 		
 		//Test 
-//		p1.run();
-//		p2.run();
-//		p3.run();
-//		p4.run();
-//		p5.run();
+		//((Process1)p1).start();
+		((Process2)p2).start();
+		//((Process3)p3).start();
+		//((Process4)p4).start();
+		//((Process5)p5).start();
 		
 		//Running & Blocked & Finished states
 		simulate();

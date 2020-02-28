@@ -12,7 +12,7 @@ public class Process5 extends Process{
 	@Override
 	public void run() {
 		//Running state
-		this.state = State.RUNNING;
+		this.setState(state.RUNNING);
 				
 		Kernel.println("Please Enter the Lower Bound Number:");
 		int lo = Kernel.takeInt();
@@ -30,7 +30,7 @@ public class Process5 extends Process{
 		if(Kernel.isFileExists(filePath)) 
 		{
 			Kernel.println("The Requested File to be Created is Already Exist , to view it try to use process 1 and its Name is "+filePath);
-			this.state = State.TERMINATED;
+			this.setState(state.TERMINATED);
 			return;
 		}
 		try 
@@ -38,25 +38,25 @@ public class Process5 extends Process{
 			if(!Kernel.createFile(filePath))
 			{
 				Kernel.println("Cannot create a file with name: "+filePath);
-				this.state = State.TERMINATED;
+				this.setState(state.TERMINATED);
 			}
 		}
 		catch (IOException e) 
 		{
 			Kernel.println("Cannot create a file with name: "+filePath);
-			this.state = State.TERMINATED;
+			this.setState(state.TERMINATED);
 		}
 		
 		try 
 		{
 			Kernel.WriteData(filePath, data);
 			Kernel.println("The Task is Done and The File With required Data is Created");
-			this.state= State.TERMINATED;
+			this.setState(state.TERMINATED);
 		}
 		catch (IOException e)
 		{
 			Kernel.println("Cannot write the count in a new file");
-			this.state = State.TERMINATED;
+			this.setState(state.TERMINATED);
 		}
 		
 	}

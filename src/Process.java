@@ -1,15 +1,23 @@
 
 public class Process extends Thread{
 
-	public enum State{NEW,READY,RUNNING,BLOCKED,TERMINATED};
 	
-	State state;
+	private state state;
+	public state getCurrentState() {
+		return state;
+	}
+
+	public void setState(state state) {
+		this.state = state;
+	}
+
 	int ID;
 	static int counter=1;
 
+	@SuppressWarnings("static-access")
 	public Process() {
 		ID = counter++;
-		this.state = State.NEW;
+		this.state = state.NEW;
 	}
 	
 	public static void main(String[] args) {

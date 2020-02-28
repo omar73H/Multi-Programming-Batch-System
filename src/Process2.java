@@ -13,7 +13,7 @@ public class Process2 extends Process{
 	@Override
 	public void run() {
 		//Running state
-		this.state = State.RUNNING;		
+		this.setState(state.RUNNING);
 		
 		
 		Kernel.println("Please Enter the File Name");
@@ -37,12 +37,12 @@ public class Process2 extends Process{
 		try 
 		{
 			Kernel.WriteData(filePath, input);
-			this.state = State.TERMINATED;
+			this.setState(state.TERMINATED);
 		}
 		catch (IOException e) 
 		{
 			Kernel.println("Cannot write data to this file");
-			this.state = State.TERMINATED;
+			this.setState(state.TERMINATED);
 		}
 	}
 	
