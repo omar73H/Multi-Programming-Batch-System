@@ -12,6 +12,10 @@ public class Kernel {
 	static Scanner sc;
 	static BufferedReader br;
 	static BufferedWriter bw;
+	static Semaphore printSemaPhore = new Semaphore() ;
+	static Semaphore readSemaphore = new Semaphore() ;
+	static Semaphore writeSemaphore = new Semaphore() ;
+	static Semaphore takeInputSemaphore = new Semaphore() ;
 	
 	public Kernel() {
 	}
@@ -71,6 +75,11 @@ public class Kernel {
 	public static boolean createFile(String filePath) throws IOException {
 		File file = new File(filePath);
 		return file.createNewFile();
+	}
+
+	public static boolean NoBlockedProcesses (){
+		return  printSemaPhore.getWaitingProcesses().isEmpty() && takeInputSemaphore.getWaitingProcesses().isEmpty()
+				&& readSemaphore.getWaitingProcesses().isEmpty() && writeSemaphore.getWaitingProcesses().isEmpty() ;
 	}
 	
 }

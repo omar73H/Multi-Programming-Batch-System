@@ -15,9 +15,17 @@ public class Process2 extends Process{
 		//Running state
 		this.setState(state.RUNNING);
 		
-		
+		this.semWait(Kernel.printSemaPhore);
+		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+		this.semWait(Kernel.takeInputSemaphore);
+		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 		Kernel.println("Please Enter the File Name");
 		String filePath = Kernel.takeString();
+
+		this.semPost(Kernel.printSemaPhore);
+		this.semPost(Kernel.takeInputSemaphore);
+		
 //		if(!Kernel.isFile(filePath)) 
 //		{
 //			Kernel.println("The File does not Exist");
@@ -27,21 +35,39 @@ public class Process2 extends Process{
 //		
 		
 		String s , input = "";
+		this.semWait(Kernel.printSemaPhore);
+		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+		this.semWait(Kernel.readSemaphore);
+		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
 		Kernel.println("Please Start Writting The Content needed to be Written in The File and Then Press Enter Twice");
-		
-		while(( s = Kernel.takeString()).length() > 0) 
+
+		while(( s = Kernel.takeString()).length() > 0)
 		{
 			input += (s + "\n");
 		}
+		this.semPost(Kernel.printSemaPhore);
+		this.semPost(Kernel.readSemaphore);
 		
 		try 
 		{
+			this.semWait(Kernel.writeSemaphore);
+			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 			Kernel.WriteData(filePath, input);
+
+			this.semPost(Kernel.writeSemaphore);
+			
 			this.setState(state.TERMINATED);
 		}
 		catch (IOException e) 
 		{
+			this.semWait(Kernel.printSemaPhore);
+			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 			Kernel.println("Cannot write data to this file");
+
+			this.semPost(Kernel.printSemaPhore);
+			
 			this.setState(state.TERMINATED);
 		}
 	}
