@@ -8,35 +8,68 @@ public class Process1 extends Process{
 	}
 
 	@Override
-	public void run(){
+	public void run() {
 		//Running state
-		this.state = State.RUNNING;
+		this.setState(state.RUNNING);
 		
+		this.semWait(Kernel.printSemaPhore);
+		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+		this.semWait(Kernel.takeInputSemaphore);
+		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 		Kernel.println("Please Enter the File Name:");
 		String filePath = Kernel.takeString();
+
+		this.semPost(Kernel.printSemaPhore);
+		this.semPost(Kernel.takeInputSemaphore);
+		
 		if(!Kernel.isFile(filePath)) 
 		{
+			this.semWait(Kernel.printSemaPhore);
+			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 			Kernel.println("The File Does Not Exist");
-			this.state = State.TERMINATED;
+
+			this.semPost(Kernel.printSemaPhore);
+			
+			this.setState(state.TERMINATED);
 			return ;
 		}
 		
 		if(Kernel.EmptyFile(filePath)) 
 		{
+			this.semWait(Kernel.printSemaPhore);
+			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 			Kernel.print("The File is Empty");
-			this.state = State.TERMINATED;
+
+			this.semPost(Kernel.printSemaPhore);
+
+			this.setState(state.TERMINATED);
 			return ;
 		}
 		
 		try 
 		{
+			this.semWait(Kernel.readSemaphore);
+			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 			Kernel.readFile(filePath);
-			this.state = State.TERMINATED;
+
+			this.semPost(Kernel.readSemaphore);
+			
+			this.setState(state.TERMINATED);
 		} 
 		catch (IOException e) 
 		{
+			this.semWait(Kernel.printSemaPhore);
+			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+
 			Kernel.println("Can NOT print The Data and there is an IO problem");
-			this.state = State.TERMINATED;
+
+			this.semPost(Kernel.printSemaPhore);
+			
+			this.setState(state.TERMINATED);
 		}
 	}
 }

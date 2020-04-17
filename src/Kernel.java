@@ -12,6 +12,10 @@ public class Kernel {
 	static Scanner sc;
 	static BufferedReader br;
 	static BufferedWriter bw;
+	static Semaphore printSemaPhore = new Semaphore() ;
+	static Semaphore readSemaphore = new Semaphore() ;
+	static Semaphore writeSemaphore = new Semaphore() ;
+	static Semaphore takeInputSemaphore = new Semaphore() ;
 	
 	public Kernel() {
 	}
@@ -62,7 +66,8 @@ public class Kernel {
 
 	public static void WriteData(String filePath , String data) throws IOException {
 		File file = new File(filePath);
-		bw = new BufferedWriter(new FileWriter(file,true));
+		// set the flag with true if you like to append the data .. false to override it every time you write data
+		bw = new BufferedWriter(new FileWriter(file,false));
 		bw.write(data);
 		bw.close();
 	}
@@ -70,6 +75,11 @@ public class Kernel {
 	public static boolean createFile(String filePath) throws IOException {
 		File file = new File(filePath);
 		return file.createNewFile();
+	}
+
+	public static boolean NoBlockedProcesses (){
+		return  printSemaPhore.getWaitingProcesses().isEmpty() && takeInputSemaphore.getWaitingProcesses().isEmpty()
+				&& readSemaphore.getWaitingProcesses().isEmpty() && writeSemaphore.getWaitingProcesses().isEmpty() ;
 	}
 	
 }
