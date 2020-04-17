@@ -3,9 +3,20 @@ import java.util.Queue;
 public abstract class Process extends Thread{
 
 	
-	private volatile state state;
+	private state state;
 	private int ID;
 	static int counter=1;
+	private boolean waiting ;
+
+	public  void Wait(){
+		this.waiting = true ;
+		while(this.waiting);
+	}
+
+	public void  Resume (){
+		this.waiting = false ;
+	}
+
 	public state getCurrentState() {
 		return state;
 	}
@@ -38,8 +49,10 @@ public abstract class Process extends Thread{
 		}
 		else {
 			semaphore.getWaitingProcesses().add(this);
-			System.out.println("blocked    "+ this.getID());
+			//System.out.println("blocked    "+ this.getID());
 			this.setState(state.BLOCKED);
+			//this.Wait();
+			System.out.println("wait *****************************************");
 		}
 	}
 	
@@ -50,8 +63,9 @@ public abstract class Process extends Thread{
 			else {
 				Process temp = semaphore.getWaitingProcesses().poll();
 				BatchSystem.getReady().add(temp);
-				//temp.setState(state.READY);
+				//temp.setState(state.RUNNING);
 				//System.out.println(temp.getID()+"55555555555555555555555");
+				System.out.println("post ****************************");
 				semaphore.setOwnerID(temp.getID());
 			}
 		}
