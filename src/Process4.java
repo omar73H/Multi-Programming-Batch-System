@@ -13,8 +13,10 @@ public class Process4 extends Process{
 		
 		this.semWait(Kernel.printSemaPhore);
 		//System.out.println(getCurrentState()+"0000000000000000000000000000");
-		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-		System.out.println("here ****************************");
+		while(true){
+		//	System.out.println(getCurrentState());
+			if (this.getCurrentState() == state.RUNNING) break ;}
+		//System.out.println("here ****************************");
 		for (int i = 500; i <= 1000; i++) 
 		{
 			Kernel.println(i+"");

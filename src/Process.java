@@ -3,7 +3,7 @@ import java.util.Queue;
 public abstract class Process extends Thread{
 
 	
-	private state state;
+	private volatile state state;
 	private int ID;
 	static int counter=1;
 	public state getCurrentState() {
@@ -51,6 +51,7 @@ public abstract class Process extends Thread{
 				Process temp = semaphore.getWaitingProcesses().poll();
 				BatchSystem.getReady().add(temp);
 				//temp.setState(state.READY);
+				//System.out.println(temp.getID()+"55555555555555555555555");
 				semaphore.setOwnerID(temp.getID());
 			}
 		}

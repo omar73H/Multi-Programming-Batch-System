@@ -1,10 +1,5 @@
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-
-
-
 
 public class BatchSystem {
 
@@ -12,20 +7,25 @@ public class BatchSystem {
 
 	public static void main(String[] args) {
 		Process3 p1 = new Process3();
-		Process4 p11 = new Process4();
-		//System.out.println(p1.getID()+"  "+p11.getID());
+		Process1 p2 = new Process1();
+		Process4 p3 = new Process4();
+		Process1 p4 = new Process1();
 		simulate();
 	}
 	
 	public static void simulate(){
-		while(!Ready.isEmpty() || !Kernel.NoBlockedProcesses()) {
-
-			Process p = Ready.poll();
-			System.out.println(p.getID()+"****************");
-			if(p.getCurrentState() == state.READY)
-				p.start();
-			else if (p.getCurrentState() == state.BLOCKED)
-				p.setState(state.RUNNING);
+		if(Ready.isEmpty())
+			return ;
+		Process p = Ready.poll();
+		p.start();
+		boolean next = false ;
+		while(!Ready.isEmpty()){
+			if(p.getCurrentState() == state.TERMINATED)
+				next = true ;
+			if(next){
+				p = Ready.poll();
+				p.start();next = false ;
+			}
 		}
 	}
 
