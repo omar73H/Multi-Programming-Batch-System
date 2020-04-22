@@ -1,75 +1,75 @@
-import java.io.IOException;
 
-public class Process1 extends Process{
+
+public abstract class Process extends Thread{
 
 	
-	public Process1() {
-		super();
+	private ProcessState state;
+	private int ID;
+	static int counter=1;
+	private boolean waiting ;
+
+	public  void Wait(){
+		this.waiting = true ;
+		while(this.waiting);
+	}
+
+	public void  Resume (){
+		this.waiting = false ;
+	}
+
+	public ProcessState getCurrentState() {
+		return state;
+	}
+
+	public void setState(ProcessState state) {
+		this.state = state;
+	}
+
+
+	public Process() {
+		ID = counter++;
+	//	this.state = state.NEW;
+		this.state = ProcessState.READY;
+		BatchSystem.getReady().add(this);
+	}
+	
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+	
+	public void semWait(Semaphore semaphore)  {
+		if(semaphore.isAvailable()) 
+		{
+			semaphore.setOwnerID(this.getID());
+			semaphore.setAvailable(false);
+		}
+		else 
+		{
+			semaphore.getWaitingProcesses().add(this);
+			this.setState(ProcessState.BLOCKED);
+		}
+	}
+	
+	public void semPost(Semaphore semaphore) {
+		if(this.getID() == semaphore.getOwnerID()) 
+		{
+			if(semaphore.getWaitingProcesses().isEmpty())
+				semaphore.setAvailable(true);
+			else 
+			{
+				Process p = semaphore.getWaitingProcesses().poll();
+				BatchSystem.getReady().add(p);
+				semaphore.setOwnerID(p.getID());
+			}
+		}
 	}
 
 	@Override
-	public void run() {
-		//Running state
-		this.setState(state.RUNNING);
-		
-		this.semWait(Kernel.printSemaPhore);
-		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-		this.semWait(Kernel.takeInputSemaphore);
-		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
+	public abstract void run() ;
 
-		Kernel.println("Please Enter the File Name:");
-		String filePath = Kernel.takeString();
 
-		this.semPost(Kernel.printSemaPhore);
-		this.semPost(Kernel.takeInputSemaphore);
-		
-		if(!Kernel.isFile(filePath)) 
-		{
-			this.semWait(Kernel.printSemaPhore);
-			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-
-			Kernel.println("The File Does Not Exist");
-
-			this.semPost(Kernel.printSemaPhore);
-			
-			this.setState(state.TERMINATED);
-			return ;
-		}
-		
-		if(Kernel.EmptyFile(filePath)) 
-		{
-			this.semWait(Kernel.printSemaPhore);
-			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-
-			Kernel.print("The File is Empty");
-
-			this.semPost(Kernel.printSemaPhore);
-
-			this.setState(state.TERMINATED);
-			return ;
-		}
-		
-		try 
-		{
-			this.semWait(Kernel.readSemaphore);
-			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-
-			Kernel.readFile(filePath);
-
-			this.semPost(Kernel.readSemaphore);
-			
-			this.setState(state.TERMINATED);
-		} 
-		catch (IOException e) 
-		{
-			this.semWait(Kernel.printSemaPhore);
-			while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-
-			Kernel.println("Can NOT print The Data and there is an IO problem");
-
-			this.semPost(Kernel.printSemaPhore);
-			
-			this.setState(state.TERMINATED);
-		}
-	}
 }

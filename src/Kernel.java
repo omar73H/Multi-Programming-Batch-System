@@ -66,7 +66,7 @@ public class Kernel {
 
 	public static void WriteData(String filePath , String data) throws IOException {
 		File file = new File(filePath);
-		// set the flag with true if you like to append the data .. false to override it every time you write data
+		// set the flag with true if you like to append the data .. false to overwrite it every time you write data
 		bw = new BufferedWriter(new FileWriter(file,false));
 		bw.write(data);
 		bw.close();

@@ -1,9 +1,9 @@
-import java.util.Queue;
+
 
 public abstract class Process extends Thread{
 
 	
-	private state state;
+	private ProcessState state;
 	private int ID;
 	static int counter=1;
 	private boolean waiting ;
@@ -17,20 +17,19 @@ public abstract class Process extends Thread{
 		this.waiting = false ;
 	}
 
-	public state getCurrentState() {
+	public ProcessState getCurrentState() {
 		return state;
 	}
 
-	public void setState(state state) {
+	public void setState(ProcessState state) {
 		this.state = state;
 	}
 
 
-	@SuppressWarnings("static-access")
 	public Process() {
 		ID = counter++;
 	//	this.state = state.NEW;
-		this.state = state.READY;
+		this.state = ProcessState.READY;
 		BatchSystem.getReady().add(this);
 	}
 	
@@ -43,30 +42,28 @@ public abstract class Process extends Thread{
 	}
 	
 	public void semWait(Semaphore semaphore)  {
-		if(semaphore.isAvailable()) {
+		if(semaphore.isAvailable()) 
+		{
 			semaphore.setOwnerID(this.getID());
 			semaphore.setAvailable(false);
 		}
-		else {
+		else 
+		{
 			semaphore.getWaitingProcesses().add(this);
-			//System.out.println("blocked    "+ this.getID());
-			this.setState(state.BLOCKED);
-			//this.Wait();
-			System.out.println("wait *****************************************");
+			this.setState(ProcessState.BLOCKED);
 		}
 	}
 	
 	public void semPost(Semaphore semaphore) {
-		if(this.getID() == semaphore.getOwnerID()) {
+		if(this.getID() == semaphore.getOwnerID()) 
+		{
 			if(semaphore.getWaitingProcesses().isEmpty())
 				semaphore.setAvailable(true);
-			else {
-				Process temp = semaphore.getWaitingProcesses().poll();
-				BatchSystem.getReady().add(temp);
-				//temp.setState(state.RUNNING);
-				//System.out.println(temp.getID()+"55555555555555555555555");
-				System.out.println("post ****************************");
-				semaphore.setOwnerID(temp.getID());
+			else 
+			{
+				Process p = semaphore.getWaitingProcesses().poll();
+				BatchSystem.getReady().add(p);
+				semaphore.setOwnerID(p.getID());
 			}
 		}
 	}

@@ -9,18 +9,17 @@ public class Process4 extends Process{
 	@Override
 	public void run() {
 		//Running state
-		this.setState(state.RUNNING);
+		this.setState(ProcessState.RUNNING);
 		
-	//	this.semWait(Kernel.printSemaPhore);
-		//System.out.println(getCurrentState()+"0000000000000000000000000000");
-		while(true){ if (this.getCurrentState() == state.RUNNING) break ;}
-		//System.out.println("here ****************************");
+		this.semWait(Kernel.printSemaPhore);
+		while(true){ if (this.getCurrentState() == ProcessState.RUNNING) break ;}
+
 		for (int i = 500; i <= 1000; i++) 
 		{
 			Kernel.println(i+"");
 		}
 		this.semPost(Kernel.printSemaPhore);
 		
-		this.setState(state.TERMINATED);
+		this.setState(ProcessState.TERMINATED);
 	}
 }
