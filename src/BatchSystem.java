@@ -40,7 +40,7 @@ public class BatchSystem {
 			if(p.getCurrentState() == ProcessState.TERMINATED)
 				next = true ;
 			
-			if(next)
+			if(next && !Ready.isEmpty())
 			{
 				p = Ready.poll();
 			//	if(p == null) continue; // WHY?
