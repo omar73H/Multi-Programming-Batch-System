@@ -37,7 +37,7 @@ public class Process2 extends Process{
 		String s , input = "";
 		this.semWait(Kernel.printSemaPhore);
 		while(true){ if (this.getCurrentState() == ProcessState.RUNNING) break ;}
-		this.semWait(Kernel.readSemaphore);
+		this.semWait(Kernel.takeInputSemaphore);
 		while(true){ if (this.getCurrentState() == ProcessState.RUNNING) break ;}
 		Kernel.println("Please Start Writting The Content needed to be Written in The File and Then Press Enter Twice");
 
@@ -46,7 +46,7 @@ public class Process2 extends Process{
 			input += (s + "\n");
 		}
 		this.semPost(Kernel.printSemaPhore);
-		this.semPost(Kernel.readSemaphore);
+		this.semPost(Kernel.takeInputSemaphore);
 		
 		try 
 		{
