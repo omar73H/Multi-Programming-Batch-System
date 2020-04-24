@@ -37,7 +37,7 @@ public class BatchSystem {
 		
 		while(!Ready.isEmpty() || !Kernel.NoBlockedProcesses())
 		{
-			if(p.getCurrentState() == ProcessState.TERMINATED)
+			if(p.getCurrentState() == ProcessState.TERMINATED || p.getCurrentState() == ProcessState.BLOCKED)
 				next = true ;
 			
 			if(next && !Ready.isEmpty())
