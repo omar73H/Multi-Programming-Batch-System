@@ -9,7 +9,7 @@ public class Semaphore {
 	
 	public Semaphore () {
 		this.isAvailable = true ;
-		this.ownerID  = -1 ;
+		this.ownerID  = -1 ; // not owned
 		waitingProcesses = new LinkedList<>();
 	}
 
